@@ -219,7 +219,7 @@ export default function CertificateDetails() {
         className="text-center text-[#2d2d2d] mt-[20px] font-bold text-[28px] leading-[1.4] px-[20px]"
         dir="ltr"
       >
-        Health certificate for business activities
+        شهادة صحية للأنشطة التجارية
       </h2>
 
       {/* User Photo */}
