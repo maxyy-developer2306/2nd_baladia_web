@@ -102,7 +102,7 @@ export default function Login() {
           </form>
         </div>
         <p className="mt-6 text-center text-sm text-gray-500">
-          Demo credentials: username <strong>admin</strong> / password <strong>WALID0099</strong>
+          Demo credentials: username <strong>admin</strong> / password <strong>admin123</strong>
         </p>
         <p className="text-center text-sm text-gray-500 mt-2">
           Not an admin? <Link to="/verify" className="text-blue-600 hover:underline font-medium">Verify a certificate</Link>
