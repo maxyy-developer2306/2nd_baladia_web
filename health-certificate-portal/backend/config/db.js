@@ -25,7 +25,7 @@ async function connectDB() {
   if (!cached.promise) {
     const atlasUri = (process.env.MONGO_ATLAS_URI || '').trim();
     const localUri =
-      process.env.MONGO_LOCAL_URI || 'mongodb://127.0.0.1:27017/Baladia';
+      process.env.MONGO_LOCAL_URI || 'mongodb://127.0.0.1:27017/2nd_baladia_web';
 
     cached.promise = (async () => {
       // Production: sirf Atlas, koi local fallback nahi.
