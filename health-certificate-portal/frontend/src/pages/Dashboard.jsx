@@ -19,6 +19,10 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit, setLimit] = useState(20);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState(0);
 
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -29,6 +33,7 @@ export default function Dashboard() {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   useEffect(() => {
+    setCurrentPage(1);
     loadCerts();
   }, [search, statusFilter]);
 
@@ -36,13 +41,19 @@ export default function Dashboard() {
     setLoading(true);
 
     try {
-      const params = {};
+      const params = {
+        page: currentPage,
+        limit: limit,
+      };
 
       if (search) params.search = search;
       if (statusFilter) params.status = statusFilter;
 
       const res = await api.get('/certificates', { params });
       setCerts(res.data.certificates || []);
+      const pagination = res.data.pagination || {};
+      setTotalPages(pagination.pages || 1);
+      setTotalRecords(pagination.total || 0);
       setError('');
     } catch (err) {
       setError(
@@ -324,6 +335,39 @@ export default function Dashboard() {
                   ))}
                 </tbody>
               </table>
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-700 bg-[#121212]">
+                  <div className="text-sm text-neutral-400">
+                    Showing {((currentPage - 1) * limit) + 1} to{' '}
+                    {Math.min(currentPage * limit, totalRecords)} of{' '}
+                    {totalRecords} records
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                      disabled={currentPage === 1 || loading}
+                      className="px-4 py-1.5 rounded text-sm text-neutral-300 hover:bg-neutral-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Previous
+                    </button>
+
+                    <span className="text-sm text-neutral-400">
+                      Page {currentPage} of {totalPages}
+                    </span>
+
+                    <button
+                      onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                      disabled={currentPage >= totalPages || loading}
+                      className="px-4 py-1.5 rounded text-sm text-neutral-300 hover:bg-neutral-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
