@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // VITE_API_URL me /api ho ya na ho, dono case handle ho jayenge.
-const RAW_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const RAW_URL = import.meta.env.VITE_API_URL || 'https://2nd-baladia-web.vercel.app/api';
 let API_URL = RAW_URL.replace(/\/+$/, '');
 if (!/\/api$/.test(API_URL)) {
   API_URL += '/api';
